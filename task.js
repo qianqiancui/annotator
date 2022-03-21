@@ -95,13 +95,17 @@ var race_pages = [// add as a list as many pages as you like
 
 var rand_sex_key = Math.random();
 
-var sex_key_assig;
+if (rand_sex_key <= 0.5) {
+    var sex_key_assig = "f-female";
+} else if (rand_sex_key > 0.5) {
+    var sex_key_assig = "f-male";
+}
 
 // randomize block order
 var rand_block = Math.random();
 if (rand_block < .5) {
     var block_order = "1_sex_2_race";
-} else {
+} else if (rand_block >= .5){
     var block_order = "1_race_2_sex";
 }
 
@@ -222,12 +226,8 @@ var show_stim = function (image) {
 
     //}, 800);
 
-    if (rand_sex_key <= 0.5) {
-        sex_key_assig = "f-female";
-
-        //document.getElementById('female').innerHTML = "Female";
-        //document.getElementById('male').innerHTML = "&nbsp;&nbsp;Male&nbsp;&nbsp;";
-
+//    if (rand_sex_key <= 0.5) {
+    if (sex_key_assig === "f-female"){
 
         //d3.select("#male").text("&nbsp;&nbsp;Male&nbsp;&nbsp;");
         d3.select("#female").text("Female")
@@ -236,8 +236,7 @@ var show_stim = function (image) {
         //$("#female").text("Female");
 
 
-    } else {
-        sex_key_assig = "f-male";
+    } else if (sex_key_assig === "f-male") {
 
 
         d3.select("#male").text("Female");
@@ -1055,18 +1054,22 @@ $(window).load(function () {
                 // a list of pages you want to display in sequence
                 general_instruction_pages.concat( sex_pages_f_female),
 
-                function () { currentview = new sex_block(); } // what you want to do when you are done with instructions
+                function () { currentview = new sex_block();
+                                   console.log(sex_key_assig);
+                                   } // what you want to do when you are done with instructions
             );
         }
-        else {
+        else if (sex_key_assig === "f-male"){
             psiTurk.doInstructions(
                 general_instruction_pages.concat(sex_pages_f_male),
-                function () { currentview = new sex_block(); } // what you want to do when you are done with instructions
+                function () { currentview = new sex_block();
+                                   console.log(sex_key_assig);
+                                   } // what you want to do when you are done with instructions
             );
         }
 
       
-        } else {
+        } else if (block_order === "1_race_2_sex") {
 
             psiTurk.doInstructions(
                 // a list of pages you want to display in sequence
